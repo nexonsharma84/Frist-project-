@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>🎲 Random Number Game</title>
+
+  <style>
+
+    * {
+
+      margin: 0;
+
+      padding: 0;
+
+      box-sizing: border-box;
+
+    }
+
+    body {
+
+      height: 100vh;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+
+      font-family: 'Segoe UI', sans-serif;
+
+      color: white;
+
+      overflow: hidden;
+
+    }
+
+    .container {
+
+      background: rgba(255, 255, 255, 0.05);
+
+      border: 1px solid rgba(255, 255, 255, 0.2);
+
+      border-radius: 20px;
+
+      padding: 40px;
+
+      text-align: center;
+
+      backdrop-filter: blur(10px);
+
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+
+      max-width: 90%;
+
+      width: 400px;
+
+    }
+
+    h1 {
+
+      font-size: 2.5rem;
+
+      margin-bottom: 20px;
+
+      background: linear-gradient(45deg, #00ffff, #38bdf8);
+
+      -webkit-background-clip: text;
+
+      -webkit-text-fill-color: transparent;
+
+    }
+
+    #number {
+
+      font-size: 5rem;
+
+      margin: 20px 0;
+
+      color: #facc15;
+
+      animation: pulse 1s ease-in-out;
+
+    }
+
+    #timer {
+
+      font-size: 1.3rem;
+
+      color: #93c5fd;
+
+      margin-bottom: 20px;
+
+    }
+
+    #refreshBtn {
+
+      padding: 10px 20px;
+
+      background: #38bdf8;
+
+      border: none;
+
+      color: #000;
+
+      font-size: 1rem;
+
+      font-weight: bold;
+
+      border-radius: 10px;
+
+      cursor: pointer;
+
+      transition: background 0.3s;
+
+    }
+
+    #refreshBtn:hover {
+
+      background: #0ea5e9;
+
+    }
+
+    @keyframes pulse {
+
+      0% { transform: scale(1); }
+
+      50% { transform: scale(1.15); }
+
+      100% { transform: scale(1); }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <audio id="bg-music" autoplay loop>
+
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/01/audio_2b9a8aa8b7.mp3?filename=arcade-music-loop-138124.mp3" type="audio/mpeg" />
+
+  </audio>
+
+  <audio id="click-sound">
+
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4bff0501d8.mp3?filename=game-notification-132114.mp3" type="audio/mpeg" />
+
+  </audio>
+
+  <div class="container">
+
+    <h1>🎲 ****** Number Game</h1>
+
+    <div id="number">-</div>
+
+    <div id="timer">Next ****** in: 30:00</div>
+
+    <button id="refreshBtn">🔁 ***** Refresh</button>
+
+  </div>
+
+  <script>
+
+    const numberDiv = document.getElementById("number");
+
+    const timerDiv = document.getElementById("timer");
+
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    const clickSound = document.getElementById("click-sound");
+
+    let totalSeconds = 1800;
+
+    function updateTimer() {
+
+      let minutes = Math.floor(totalSeconds / 60);
+
+      let seconds = totalSeconds % 60;
+
+      timerDiv.innerText = `Next number in: ${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+      if (totalSeconds <= 0) {
+
+        generateRandomNumber();
+
+        totalSeconds = 1800;
+
+      }
+
+      totalSeconds--;
+
+    }
+
+    function generateRandomNumber() {
+
+      const randomNum = Math.floor(Math.random() * 12) + 1;
+
+      numberDiv.innerText = randomNum;
+
+      clickSound.play();
+
+      numberDiv.style.animation = "none";
+
+      numberDiv.offsetHeight;
+
+      numberDiv.style.animation = "pulse 1s ease-in-out";
+
+    }
+
+    refreshBtn.addEventListener("click", () => {
+
+      generateRandomNumber();
+
+      totalSeconds = 1800; // reset timer on manual refresh
+
+    });
+
+    // Start everything
+
+    generateRandomNumber();
+
+    setInterval(updateTimer, 1000);
+
+  </script>
+
+
+<div style="color: red">Word to HTML trial - please <a href="https://wordtohtml.net/site/payment">Go PRO</a> to get whole HTML.</div>
+</body>
+
+</html>
